@@ -8,9 +8,11 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
     return (
-        <Container fluid='lg'>
-            {children}
-        </Container>
+        <div className="bg-light">
+            <Container fluid='lg' >
+                {children}
+            </Container>
+        </div>
     )
 }
 
