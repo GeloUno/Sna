@@ -1,9 +1,10 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosError } from 'axios'
 import { IDataEventsServer } from '../models/IDataEventsServer';
 import { IDataEvents } from '../models/IDataEvents';
+import { ThrowStatement } from 'typescript';
+import { IErrorServer } from '../models/IErrorServer';
 
-
-export async function getAllEvents(): Promise<Array<IDataEvents> | null> {
+export async function getAllEvents(): Promise<Array<IDataEvents> | IErrorServer | null> {
 
     const maxage = 5 * 60;
 
@@ -16,12 +17,21 @@ export async function getAllEvents(): Promise<Array<IDataEvents> | null> {
     }
 
     try {
-        const dataServer: IDataEventsServer = await axios.get(`${process.env.REACT_APP_URL}`, config)
+        const dataServer: IDataEventsServer = await axios.get(`${process.env.REACT_APP_URL}?format=json`, config)
 
         return dataServer.data.results
 
     } catch (error) {
-        return null
+
+
+        if (axios.isAxiosError(error)) {
+            const dataError: IErrorServer = {
+                message: error.response?.data?.detail,
+                status: error.response?.status
+            }
+            throw dataError
+        }
+        throw null
     }
 }
 
