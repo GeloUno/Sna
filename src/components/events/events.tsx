@@ -34,40 +34,54 @@ function Events() {
             message: err.message,
             status: err?.status,
           });
-        } else {
-          setError(true);
         }
+        setError(true);
       });
     return () => {};
   }, []);
 
   if (!error && eventsData === null) {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <div
+        style={{ height: '50vh' }}
+        className="d-flex justify-content-center align-items-center"
+      >
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
     );
   }
   if (error && eventsData == null) {
     return (
-      <Alert variant="danger">
-        <Alert.Heading>
-          {errorServer?.status && `${errorServer.status} | `} Ups..
-        </Alert.Heading>
-        <p>
-          {errorServer?.message
-            ? `${errorServer.message}`
-            : `Coś poszło nie tak zapraszamy później`}
-        </p>
-      </Alert>
+      <div
+        style={{ height: '50vh' }}
+        className="d-flex justify-content-center align-items-center"
+      >
+        <Alert variant="danger">
+          <Alert.Heading>
+            {errorServer?.status && `${errorServer.status} | `} Ups..
+          </Alert.Heading>
+          <p>
+            {errorServer?.message
+              ? `${errorServer.message}`
+              : `Coś poszło nie tak zapraszamy później`}
+          </p>
+        </Alert>
+      </div>
     );
   }
   if (eventsData && eventsData.length === 0) {
     return (
-      <Alert variant="warning">
-        <Alert.Heading>Ups..</Alert.Heading>
-        <p>Dzisiaj brak jakichkolwiek wydarzeń zostajesz w domu :-)</p>
-      </Alert>
+      <div
+        style={{ height: '50vh' }}
+        className="d-flex justify-content-center align-items-center"
+      >
+        <Alert variant="warning">
+          <Alert.Heading>Ups..</Alert.Heading>
+          <p>Dzisiaj brak jakichkolwiek wydarzeń zostajesz w domu :-)</p>
+        </Alert>
+      </div>
     );
   }
 
